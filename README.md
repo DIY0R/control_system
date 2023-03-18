@@ -1,1 +1,1 @@
-# PulPay-
+# PulPay
