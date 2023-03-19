@@ -1,0 +1,30 @@
+{
+  "name": "pulpay",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DIY0R/PulPay.git"
+  },
+  "author": " <sabirovdiyorkind@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DIY0R/PulPay/issues"
+  },
+  "homepage": "https://github.com/DIY0R/PulPay#readme",
+  "devDependencies": {
+    "@types/node": "^18.15.3",
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.21",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "ts-node": "~10.9.1"
+  }
+}
