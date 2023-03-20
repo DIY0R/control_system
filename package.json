@@ -1,5 +1,5 @@
 {
-  "name": "pulpay",
+  "name": "control_system",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DIY0R/PulPay.git"
+    "url": "git+https://github.com/DIY0R/control_system.git"
   },
   "author": " <sabirovdiyorkind@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DIY0R/PulPay/issues"
+    "url": "https://github.com/DIY0R/control_system/issues"
   },
-  "homepage": "https://github.com/DIY0R/PulPay#readme",
+  "homepage": "https://github.com/DIY0R/control_system#readme",
   "devDependencies": {
     "@types/node": "^18.15.3",
     "concurrently": "^7.6.0",
