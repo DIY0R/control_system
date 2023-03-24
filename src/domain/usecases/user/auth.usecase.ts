@@ -22,4 +22,6 @@ export class AuthUseCase {
     if (checkPassword) return user;
     return this.errorGenerate.forbidden('not enter!');
   }
+
+  async registration() {}
 }
