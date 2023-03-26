@@ -7,6 +7,8 @@
     "test": "jest",
     "build": "npx tsc",
     "start": "node dist/index.js",
+    "commit": "cz",
+    "lint:commits": "commitlint --from=HEAD~1",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/index.js\""
   },
   "repository": {
@@ -20,8 +22,11 @@
   },
   "homepage": "https://github.com/DIY0R/control_system#readme",
   "devDependencies": {
+    "@commitlint/cli": "^17.5.0",
+    "@commitlint/config-conventional": "^17.4.4",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.3",
+    "commitizen": "^4.3.0",
     "concurrently": "^7.6.0",
     "jest": "^29.5.0",
     "nodemon": "^2.0.21",
