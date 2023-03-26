@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "commit": "commitlint --all",
+    "lint:commits": "commitlint --from=HEAD~",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/index.js\""
   },
   "repository": {
