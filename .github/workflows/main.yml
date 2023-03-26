@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Lint commits
-        run: npx commitlint --from=${{ github.event.before }} --to=${{ github.event.after }}
-
+        run: npx commitlint --from=${GITHUB_SHA}~1 --to=${GITHUB_SHA}
+        
       - name: 'run test'
         run: npm run test
