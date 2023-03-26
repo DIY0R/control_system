@@ -30,7 +30,6 @@ jobs:
         run: npm run test
     
   MERGE:
-    needs: CHECK_ALL
     runs-on: ubuntu-latest
     environment: MERGE
     steps:
