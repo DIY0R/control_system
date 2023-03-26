@@ -3,6 +3,8 @@ name: CHECK_MERGE
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   CHECK_ALL:
@@ -22,18 +24,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-
+        
       - name: Lint commits
-        run: npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+          else
+            npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
+          fi
         
       - name: 'run test'
         run: npm run test
     
-  MERGE:
-    runs-on: ubuntu-latest
-    environment: MERGE
-    steps:
-    - name: MERGE
-      run: deploy.sh
-      if: ${{ needs.CHECK_ALL.result == 'success' }}      
+
 
