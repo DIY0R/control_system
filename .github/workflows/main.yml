@@ -28,3 +28,7 @@ jobs:
         
       - name: 'run test'
         run: npm run test
+        
+      - name: Deploy
+        run: deploy.sh
+        if: success()
