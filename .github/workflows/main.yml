@@ -1,17 +1,17 @@
-name: CI
+name: CHECK_MERGE
 
 on:
   push:
     branches: [main]
 
 jobs:
-  TESTS:
+  CHECK_ALL:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./
 
-    environment: TESTS
+    environment: CHECK ALL
     strategy:
       matrix:
         node-version: [16.x]
@@ -28,7 +28,13 @@ jobs:
         
       - name: 'run test'
         run: npm run test
-        
-      - name: Deploy
-        run: deploy.sh
-        if: success()
+    
+  MERGE:
+    needs: CHECK_ALL
+    runs-on: ubuntu-latest
+    environment: MERGE
+    steps:
+    - name: MERGE
+      run: deploy.sh
+      if: ${{ needs.CHECK_ALL.result == 'success' }}      
+
