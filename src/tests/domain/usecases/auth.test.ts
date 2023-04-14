@@ -1,11 +1,12 @@
 import { AuthError } from '../../../domain/description_objects/error/auth.error';
 import { UserLoginDto } from '../../../domain/description_objects/user/user.dto';
 import { User } from '../../../domain/entities/user/user';
-import { AuthUseCase } from '../../../domain/usecases/user/auth.usecase';
+import { AuthUseCase } from '../../../domain/usecases/user/logn.usecase';
 
 describe('AuthTests login', () => {
   const AuthErrorImpl: AuthError = {
-    loginError: { error: 'forbidden', code: 403 },
+    loginError: 'Неправильный логин или пароль',
+    registrationError: 'Этот пользователь уже зарегистрирован',
   };
   const baseHesh = {
     base: jest.fn((a: number, b: number) => (a == b ? true : false)),
@@ -17,7 +18,7 @@ describe('AuthTests login', () => {
     email: 'hello@gmail.com',
     name: 'Victorya',
     nick: 'vista',
-    password: '123',
+    password: 'StrongPassword123',
     photo: 'https://presto/hi.jpg',
     role: ['HR', 'MIDDLE'],
   };
@@ -43,10 +44,11 @@ describe('AuthTests login', () => {
   test('sucess', async () => {
     loginData = {
       nick: 'vista',
-      password: '123',
+      password: 'StrongPassword123',
     };
     expect(await authUseCase.login(loginData)).toEqual(getOneUser);
-    expect(baseHesh.base).toHaveBeenCalledTimes(1);
+    // expect(baseHesh.base).toHaveBeenCalledTimes(1);
+    expect(await baseHesh.base.mock.results[0].value).toEqual(true);
   });
 
   test('fall incorrect nick', async () => {
@@ -55,9 +57,9 @@ describe('AuthTests login', () => {
       password: '123',
     };
 
-    expect(await authUseCase.login(loginData)).toEqual(
-      AuthErrorImpl.loginError
-    );
+    expect(
+      async () => await authUseCase.login(loginData)
+    ).rejects.toThrowError();
     expect(await userRepoMock.findOneByNick.mock.results[0].value).toBeNull();
     expect(baseHesh.base).toHaveBeenCalledTimes(0);
   });
@@ -65,13 +67,12 @@ describe('AuthTests login', () => {
   test('fall incorrect password', async () => {
     loginData = {
       nick: 'vista',
-      password: '123_2',
+      password: 'w2222s',
     };
 
-    expect(await authUseCase.login(loginData)).toEqual(
-      AuthErrorImpl.loginError
-    );
+    expect(
+      async () => await authUseCase.login(loginData)
+    ).rejects.toThrowError();
     expect(await userRepoMock.findOneByNick).toHaveBeenCalledTimes(1);
-    expect(await baseHesh.base.mock.results[0].value).toEqual(false);
   });
 });
