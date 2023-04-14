@@ -1,7 +1,7 @@
 import { rolesTypes } from './roles';
 
 export class User {
-  id: number;
+  id?: number;
   name: string;
   nick: string;
   email: string;
