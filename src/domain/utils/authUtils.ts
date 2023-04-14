@@ -1,14 +1,11 @@
-import { User } from '../entities/user/user';
-import { UserRepo } from '../repositories/user.auth';
-
-async function checkNick(
-  userRepo: UserRepo,
-  nick: string
-): Promise<User | null> {
-  const user = await userRepo.findOneByNick(nick);
-  console.log(user);
-  if (!user) return null;
-  return user;
+function checkEmailStrength(email: string): boolean {
+  const emailReg = /^[^\s()<>@,;:\/]+@\w[\w\.-]+\.[a-z]{2,}$/i;
+  return emailReg.test(email);
 }
 
-export { checkNick };
+function checkPasswordStrength(password: string): boolean {
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  return regex.test(password);
+}
+
+export { checkEmailStrength, checkPasswordStrength };
