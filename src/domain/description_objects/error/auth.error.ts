@@ -1,3 +1,4 @@
 export interface AuthError {
-  loginError: object;
+  loginError: string;
+  registrationError: string;
 }
