@@ -35,6 +35,13 @@ jobs:
             else
               BASE=$(git rev-parse FETCH_HEAD)
             fi
+            for COMMIT in $(git rev-list --no-merges ${BASE}..FETCH_HEAD); do
+              COMMIT_MESSAGE=$(git log -1 --format='%s' $COMMIT)
+              if [[ ! "$COMMIT_MESSAGE" =~ ^chore: ]]; then
+                echo "Commit message '$COMMIT_MESSAGE' does not start with 'chore:'"
+                exit 1
+              fi
+            done
             npx commitlint --from ${BASE} --to FETCH_HEAD --verbose
           else
             if git rev-parse ${GITHUB_SHA} >/dev/null 2>&1; then
