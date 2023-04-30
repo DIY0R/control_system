@@ -26,30 +26,8 @@ jobs:
         run: npm install
         
       - name: Lint commits
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            git fetch origin pull/${{ github.event.pull_request.number }}/head
-            git fetch origin pull/${{ github.event.pull_request.number }}/merge
-            if git rev-parse HEAD~1 >/dev/null 2>&1; then
-              BASE=$(git merge-base FETCH_HEAD HEAD~1)
-            else
-              BASE=$(git rev-parse FETCH_HEAD)
-            fi
-            for COMMIT in $(git rev-list --no-merges ${BASE}..FETCH_HEAD); do
-              COMMIT_MESSAGE=$(git log -1 --format='%s' $COMMIT)
-              if [[ ! "$COMMIT_MESSAGE" =~ ^chore: ]]; then
-                echo "Commit message '$COMMIT_MESSAGE' does not start with 'chore:'"
-                exit 1
-              fi
-            done
-            npx commitlint --from ${BASE} --to FETCH_HEAD --verbose
-          else
-            if git rev-parse ${GITHUB_SHA} >/dev/null 2>&1; then
-              npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
-            else
-              npx commitlint --from  --to  --verbose
-            fi
-          fi
+        run: npx commitlint --from HEAD~${{ github.event.pull_request.commits }} --to HEAD --verbose
+
 
       - name: 'run test'
         run: npm run test
