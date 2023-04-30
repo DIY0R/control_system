@@ -26,7 +26,8 @@ jobs:
         run: npm install
 
       - name: Lint commits
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: npx commitlint --from=$(git merge-base FETCH_HEAD origin/main) --to=$(git rev-parse FETCH_HEAD) --verbose
+
 
 
       - name: 'run test'
