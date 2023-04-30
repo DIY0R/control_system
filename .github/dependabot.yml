@@ -1,3 +1,5 @@
+
+
 version: 2
 updates:
   - package-ecosystem: "npm"
@@ -6,5 +8,10 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "all"
-        commit-message:
-          prefix: "chore: "
+        automerged: false
+        requires:
+          pushes: true
+        updates:
+          - commit-message:
+              prefix: "chore: "
+              extends: ["@commitlint/config-conventional"]
