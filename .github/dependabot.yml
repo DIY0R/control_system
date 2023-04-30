@@ -4,4 +4,4 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    commit-prefix: "chore:"
+    commit-message: "chore(deps): update {{ dependency }} to {{ version }}"
