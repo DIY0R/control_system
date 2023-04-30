@@ -1,9 +1,11 @@
-- package-ecosystem: "npm"
-  directory: "/"
-  schedule:
-    interval: "daily"
-  allow:
-    - dependency-type: "all"
-      updates:
-        - commit-message:
-            prefix: "chore: "
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
+        updates:
+          - commit-message:
+              prefix: "chore: "
