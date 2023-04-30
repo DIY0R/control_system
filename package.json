@@ -22,7 +22,7 @@
   "homepage": "https://github.com/DIY0R/control_system#readme",
   "devDependencies": {
     "@commitlint/cli": "^17.5.0",
-    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/config-conventional": "^17.6.1",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.3",
     "commitizen": "^4.3.0",
