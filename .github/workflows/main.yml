@@ -28,7 +28,7 @@ jobs:
       - name: Lint commits
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo github.event.pull_request.html_url
+            echo ${{ github.event.pull_request.html_url }}
           else
             npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
           fi
