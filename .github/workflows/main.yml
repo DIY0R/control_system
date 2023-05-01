@@ -25,13 +25,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Lint commits
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-           npx commitlint --from "${{ github.event.pull_request.base.sha }}" --to "${{ github.event.pull_request.head.sha }}" --verbose
-          else
-            npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
-          fi
+      - if: github.event_name == 'pull_request'
+        name: Validate all commits from PR
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
       - name: 'run test'
         run: npm run test
