@@ -24,16 +24,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-
+  
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: Check commit prefixes
         run: |
-          for commit in $(git rev-list --no-merges ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}); do
-            if git log --format=%B -n 1 $commit | grep -E '^(fix|feat|docs|style|refactor|test|chore):' ; then
-              echo "Commit message has valid prefix"
-            else
-              echo "Commit message does not have valid prefix"
-              exit 1
-            fi
-          done
+          git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+          git log --pretty=format:'%s' --no-merges origin/${{ github.base_ref }}..HEAD | grep -E '^(fix|feat|docs|style|refactor|test|chore):' || (echo 'Invalid commit prefix' && exit 1)
 
 
