@@ -1,4 +1,4 @@
-name: CHECK_MERGE
+name: CHECK_All
 
 on:
   push:
@@ -13,7 +13,6 @@ jobs:
       run:
         working-directory: ./
 
-    environment: CHECK ALL
     strategy:
       matrix:
         node-version: [18.x]
