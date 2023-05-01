@@ -6,5 +6,5 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "all"
-        commit-message:
-          prefix: "chore: "
+    commit-message:
+      prefix: "chore"
