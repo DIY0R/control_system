@@ -25,13 +25,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Check commit prefixes
+      - name: Check commit prefixes in PR
         run: |
-          if git log --format=%B -n 1 ${{ github.sha }} | grep -E '^(fix|ci|feat|docs|refactor|test|chore):' ; then
-            echo "Commit message has valid prefix"
-          else
-            echo "Commit message does not have valid prefix"
-            exit 1
-          fi
+          for commit in $(git rev-list --no-merges HEAD ^${{ github.base_ref }}); do
+            if ! git log --format=%B -n 1 $commit | grep -E '^(fix|feat|docs|style|refactor|test|chore):' ; then
+              echo "Commit $commit does not have valid prefix"
+              exit 1
+            fi
+          done
 
 
