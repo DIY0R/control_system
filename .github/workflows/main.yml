@@ -35,5 +35,5 @@ jobs:
       - name: Check commit prefixes
         run: |
           git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
-          git log --pretty=format:'%s' --no-merges origin/${{ github.base_ref }}..HEAD | grep -E '^(fix|feat|docs|style|refactor|test|chore|ci):' || (echo 'Invalid commit prefix' && exit 1)
+          git log --pretty=format:'%s' --no-merges origin/${{ github.base_ref }}..HEAD | grep -E '^(fix|feat|docs|style|refactor|test|chore|ci):' || (echo 'Invalid commit prefix' && exit 1))
 
