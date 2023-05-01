@@ -27,9 +27,21 @@ jobs:
     
   check-commits:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+        
+  
+    strategy:
+      matrix:
+        node-version: [18.x]
     steps:
+      - uses: actions/checkout@v3
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
+    
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -38,7 +50,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
-            git log --pretty=format:'%s' --no-merges origin/${{ github.base_ref }}..HEAD | grep -E '^(fix|feat|docs|style|refactor|test|chore):' || (echo 'Invalid commit prefix' && exit 1)
+            git log --pretty=format:'%s' --no-merges origin/${{ github.base_ref }}..HEAD | grep -E '^(fix|feat|docs|style|refactor|test|chore|ci):' || (echo 'Invalid commit prefix' && exit 1)
           else
             npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
           fi
