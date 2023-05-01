@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, synchronize, reopened]
     branches: [main]
 
 jobs:
@@ -26,9 +27,12 @@ jobs:
         run: npm install
 
       - name: Lint commits
-        run: npx commitlint --from=$(git merge-base FETCH_HEAD origin/main) --to=$(git rev-parse FETCH_HEAD) --verbose
-
-
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            run: npx commitlint --from=$(git merge-base FETCH_HEAD origin/main) --to=$(git rev-parse FETCH_HEAD) --verbose
+          else
+            npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
+          fi
 
       - name: 'run test'
         run: npm run test
