@@ -28,7 +28,7 @@ jobs:
       - name: Lint commits
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-           git log --pretty=format:'%H' origin/main..HEAD | tac | xargs git log --reverse --pretty=format:'%H' | npx commitlint --from=HEAD~$(( $(git rev-list --count HEAD ^origin/main) - 1 )) --verbose
+           npx commitlint
           else
             npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
           fi
