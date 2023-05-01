@@ -28,7 +28,7 @@ jobs:
       - name: Lint commits
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-           npx commitlint --from=b890e238754ab03bb2e6c5dbf09410e2e4a80bcc --to=0512858f5d6cfce3a66f64ce96cf32620b7f612d --verbose
+           npx commitlint --from="b890e238754ab03bb2e6c5dbf09410e2e4a80bcc" --to="0512858f5d6cfce3a66f64ce96cf32620b7f612d" --verbose
           else
             npx commitlint --from ${{ github.event.push.base.sha }} --to ${{ github.event.push.head.sha }} --verbose
           fi
