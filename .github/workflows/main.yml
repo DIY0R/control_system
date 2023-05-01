@@ -29,5 +29,15 @@ jobs:
       - name: 'run test'
         run: npm run test
     
-
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Check commit prefixes
+        run: |
+          git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+          git log --pretty=format:'%s' --no-merges origin/${{ github.base_ref }}..HEAD | grep -E '^(fix|feat|docs|style|refactor|test|chore):' || (echo 'Invalid commit prefix' && exit 1)
 
