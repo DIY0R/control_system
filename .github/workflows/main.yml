@@ -1,19 +1,18 @@
-name: CHECK_MERGE
-
+name: CI
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
+    
 jobs:
-  CHECK_ALL:
+  run-tests:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./
-
-    environment: CHECK ALL
+        
+    environment: run tests
     strategy:
       matrix:
         node-version: [18.x]
@@ -24,10 +23,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-      - name: Validate all commits from PR
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
       - name: 'run test'
         run: npm run test
     
-
-
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Check commit prefixes
+        run: |
+          git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+          git log --pretty=format:'%s' --no-merges origin/${{ github.base_ref }}..HEAD | grep -E '^(fix|feat|docs|style|refactor|test|chore|ci):' || (echo 'Invalid commit prefix' && exit 1)
