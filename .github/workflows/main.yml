@@ -28,6 +28,7 @@ jobs:
       - name: Check commit prefixes in PR
         run: |
           for commit in $(git rev-list --no-merges HEAD ^${{ github.base_ref }}); do
+           echo git rev-list --no-merges HEAD ^${{ github.base_ref }}
             if ! git log --format=%B -n 1 $commit | grep -E '^(fix|feat|docs|style|refactor|test|chore):' ; then
               echo "Commit $commit does not have valid prefix"
               exit 1
