@@ -28,6 +28,13 @@ jobs:
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
       - name: 'run test'
         run: npm run test
-    
+      - name: Check commit prefixes
+        run: |
+          if git log --format=%B -n 1 ${{ github.sha }} | grep -E '^(fix|feat|docs|style|refactor|test|chore):' ; then
+            echo "Commit message has valid prefix"
+          else
+            echo "Commit message does not have valid prefix"
+            exit 1
+          fi
 
 
