@@ -6,7 +6,7 @@ on:
     branches: [main]
     
 jobs:
-  run-tests:
+  check_all:
     runs-on: ubuntu-latest
     defaults:
       run:
