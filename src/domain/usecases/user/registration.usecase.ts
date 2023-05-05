@@ -1,4 +1,5 @@
 import { AuthError } from '../../description_objects/error/auth.error';
+import { HashGenerator } from '../../description_objects/hashGenerator/hashGenerator';
 import {
   UserLoginDto,
   UserRegistrationDto,
@@ -13,7 +14,7 @@ import {
 export class AuthUseCase {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly hashGenerator: any,
+    private readonly hashGenerator: HashGenerator,
     private readonly errorObject: AuthError
   ) {}
 
