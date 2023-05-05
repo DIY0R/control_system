@@ -1,4 +1,5 @@
 import { AuthError } from '../../../domain/description_objects/error/auth.error';
+import { hashGenerator } from '../../../domain/description_objects/hashGenerator/hashGenerator';
 import { UserLoginDto } from '../../../domain/description_objects/user/user.dto';
 import { User } from '../../../domain/entities/user/user';
 import { AuthUseCase } from '../../../domain/usecases/user/logn.usecase';
@@ -9,7 +10,7 @@ describe('AuthTests login', () => {
     registrationError: 'Этот пользователь уже зарегистрирован',
   };
   const baseHesh = {
-    base: jest.fn((a: number, b: number) => (a == b ? true : false)),
+    compare: jest.fn((a: number, b: number) => (a == b ? true : false)),
   };
   let loginData: UserLoginDto;
   const getOneUser: User = {
@@ -30,7 +31,7 @@ describe('AuthTests login', () => {
 
   const authUseCase = new AuthUseCase(
     userRepoMock as any,
-    baseHesh as any,
+    baseHesh,
     AuthErrorImpl
   );
   beforeEach(() => {
@@ -38,7 +39,7 @@ describe('AuthTests login', () => {
   });
   afterEach(() => {
     userRepoMock.findOneByNick.mockClear();
-    baseHesh.base.mockClear();
+    baseHesh.compare.mockClear();
   });
 
   test('sucess', async () => {
@@ -48,7 +49,7 @@ describe('AuthTests login', () => {
     };
     expect(await authUseCase.login(loginData)).toEqual(getOneUser);
     // expect(baseHesh.base).toHaveBeenCalledTimes(1);
-    expect(await baseHesh.base.mock.results[0].value).toEqual(true);
+    expect(await baseHesh.compare.mock.results[0].value).toEqual(true);
   });
 
   test('fall incorrect nick', async () => {
@@ -61,7 +62,7 @@ describe('AuthTests login', () => {
       async () => await authUseCase.login(loginData)
     ).rejects.toThrowError();
     expect(await userRepoMock.findOneByNick.mock.results[0].value).toBeNull();
-    expect(baseHesh.base).toHaveBeenCalledTimes(0);
+    expect(baseHesh.compare).toHaveBeenCalledTimes(0);
   });
 
   test('fall incorrect password', async () => {

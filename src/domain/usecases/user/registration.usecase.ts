@@ -13,7 +13,7 @@ import {
 export class AuthUseCase {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly HashGenerator: any,
+    private readonly hashGenerator: any,
     private readonly errorObject: AuthError
   ) {}
 
@@ -31,7 +31,7 @@ export class AuthUseCase {
     if (!!userByNick || !!userByEmail)
       throw new Error(this.errorObject.registrationError);
 
-    const hashPassword = await this.HashGenerator.hash(password, 5);
+    const hashPassword = await this.hashGenerator.hash(password, 5);
     const newUser = await this.userRepository.create({
       email,
       name,
