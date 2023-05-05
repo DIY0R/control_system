@@ -1,4 +1,5 @@
 import { AuthError } from '../../description_objects/error/auth.error';
+import { HashGenerator } from '../../description_objects/hashGenerator/hashGenerator';
 import { UserLoginDto } from '../../description_objects/user/user.dto';
 import { User } from '../../entities/user/user';
 import { UserRepository } from '../../repositories/user.auth';
@@ -7,7 +8,7 @@ import { checkPasswordStrength } from '../../utils/authUtils';
 export class AuthUseCase {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly HashGenerator: any,
+    private readonly hashGenerator: HashGenerator,
     private readonly errorObject: AuthError
   ) {}
 
@@ -17,7 +18,7 @@ export class AuthUseCase {
     if (!userByNick || !checkPasswordStrength(password))
       throw new Error(this.errorObject.loginError);
 
-    const checkPassword = this.HashGenerator.base(
+    const checkPassword = this.hashGenerator.compare(
       userByNick.password,
       password
     );
