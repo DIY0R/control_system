@@ -30,7 +30,7 @@ describe('AuthTests login', () => {
 
   const authUseCase = new AuthUseCase(
     userRepoMock as any,
-    baseHesh,
+    baseHesh as any,
     AuthErrorImpl
   );
   beforeEach(() => {
