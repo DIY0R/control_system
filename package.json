@@ -24,7 +24,7 @@
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
     "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.3",
+    "@types/node": "^20.1.2",
     "commitizen": "^4.3.0",
     "concurrently": "^7.6.0",
     "husky": "^8.0.3",
